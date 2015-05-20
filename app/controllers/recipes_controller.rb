@@ -1,7 +1,8 @@
 class RecipesController < ApplicationController
-	before_action :find_recipe, only: [:show, :new, :update, :destroy]
+	before_action :find_recipe, only: [:show, :edit, :update, :destroy]
 
 	def index
+		@recipe = Recipe.all.order(created_at: :desc)
 	end
 
 	def show
@@ -13,9 +14,28 @@ class RecipesController < ApplicationController
 
 	def create
 		@recipe = Recipe.new(recipe_params)
+
+		if @recipe.save
+			redirect_to @recipe, notice: "Recipe successfully created"
+		else
+			render 'new'
+		end
 	end
 
 	def destroy
+		@recipe.destroy
+		redirect_to root_path, notice: "Recipe deleted successfully"
+	end
+
+	def update
+		if @recipe.update(recipe_params)
+			redirect_to @recipe, notice: "Recipe successfully updated"
+		else
+			render 'edit'
+		end
+	end
+
+	def edit
 	end
 
 
