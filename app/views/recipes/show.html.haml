@@ -5,6 +5,9 @@
 		.col-md-8
 			#recipe_info
 				%h1= @recipe.title
+				%p 
+					Submited by
+					= @recipe.user.email
 				%p.description= @recipe.description
 
 	.row
@@ -25,7 +28,8 @@
 	.row
 		.col-md-12
 			= link_to "Back", root_path, class: "btn btn-default"
-			= link_to "Edit", edit_recipe_path, class: "btn btn-default"
-			= link_to "Destroy", @recipe, method: :delete, data: {confirm: "Are You sure?"}, class: "btn btn-default"
+			- if @recipe.user == current_user
+				= link_to "Edit", edit_recipe_path, class: "btn btn-default"
+				= link_to "Destroy", @recipe, method: :delete, data: {confirm: "Are You sure?"}, class: "btn btn-default"
 
 
